@@ -1,0 +1,14 @@
+class Name: 
+    def __init__(self,name): 
+        self.name = name 
+
+def get_name(): 
+    print("Welcome") 
+    name = input("Input Player Name:") 
+    return Name(name)
+
+def main(): 
+    name = get_name()
+    print(f"Player name: {name.name}") 
+
+main()
