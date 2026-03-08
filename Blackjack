@@ -1,10 +1,15 @@
+import random
+number = random.randint(1,20)
+
+print (number)
+
 class Name: 
-    def __init__(self,name): 
+    def __init__(self,name): # creates class of name 
         self.name = name 
 
 def get_name(): 
     print("Welcome") 
-    name = input("Input Player Name:") 
+    name = input("Input Player Name:") # saves name into class and prints
     return Name(name)
 
 def main(): 
