@@ -1,8 +1,7 @@
 import random 
+import cards
 
-number = random.randint(1,20)
 
-print (number)
 
 class Name: 
     def __init__(self,name): # creates class of name 
@@ -16,5 +15,8 @@ def get_name():
 def main(): 
     name = get_name()
     print(f"Player name: {name.name}") 
+
+
+
 
 main()
