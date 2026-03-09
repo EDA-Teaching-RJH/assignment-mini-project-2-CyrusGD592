@@ -1,6 +1,11 @@
 import random 
-import cards
+from itertools import product  
+from random import shuffle 
+Suits = ["Clubs ", "Hearts ", "Spades ", "Diamonds "] 
+Ranks = ['Ace ', '2 ', '3 ', '4 ', '5 ', '6 ', '7 ', '8 ', '9 ', '10 ', 'Jack ', 'Queen ', 'King '] 
 
+deck = list(product(Ranks, Suits)) #creates deck 
+shuffle(deck)  
 
 
 class Name: 
@@ -15,8 +20,21 @@ def get_name():
 def main(): 
     name = get_name()
     print(f"Player name: {name.name}") 
+    print("Menu: Blacjack ")  
+    print("1: Start Game")
+    opt = input("Select Option: ") 
+    if opt == "1": 
+        start()
+
+def start(): 
+ hand = random.sample(deck,k=2)
+ total = 0
+ value = {'Ace ' :11 , '2 ' :2, '3 ' :3, '4 ' :4, '5 ':5, '6 ':6, '7 ':7, '8 ':8, '9 ':9, '10 ':10, 'Jack ':10, 'Queen ':10, 'King ':10} 
+ print(hand) 
+ for i in hand: 
+  total += value.get(i[0], 0) 
+ print(f"Hand value:  {total}") 
 
 
+main() 
 
-
-main()
