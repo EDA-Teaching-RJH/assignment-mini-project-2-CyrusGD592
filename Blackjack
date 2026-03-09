@@ -20,13 +20,17 @@ def get_name():
 def main(): 
     name = get_name()
     print(f"Player name: {name.name}") 
+    menu(name)
+
+def menu(player): 
     print("Menu: Blacjack ")  
+    print(f"Player name: {player.name}")  
     print("1: Start Game")
     opt = input("Select Option: ") 
     if opt == "1": 
-        start()
+        start(player) 
 
-def start(): 
+def start(player): 
  hand = random.sample(deck,k=2)
  total = 0
  print(hand) 
@@ -43,9 +47,9 @@ def start():
  print("Stand") 
  x = input("Select Move: ")
  if x == "Hit": 
-    hand = hit(hand)
+    hand = hit(hand, player)
 
-def hit(current_hand): 
+def hit(current_hand, player): 
    hit_card = random.sample(deck,k=1) 
    current_hand.append(hit_card[0]) 
    print(current_hand) 
@@ -53,7 +57,17 @@ def hit(current_hand):
    for i in current_hand: 
       total += value.get(i[0], 0) 
    print(f"Hand value:  {total}") 
-   if total 
+   if total > 21:
+    print("Bust ! :C") 
+    return menu(player) 
+   else : 
+      f = input("Select Move: ") 
+      if f == "Hit": 
+            hit(current_hand, player) 
+      else : 
+           print("Stand")
+          
+    
 
 main() 
 
