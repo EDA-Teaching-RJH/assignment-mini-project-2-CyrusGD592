@@ -33,7 +33,13 @@ def start():
  print(hand) 
  for i in hand: 
   total += value.get(i[0], 0) 
- print(f"Hand value:  {total}") 
+ print(f"Hand value:  {total}")  
+ dealer = random.sample(deck,k=2) 
+ deal = 0 
+ print(dealer)  
+ for i in dealer: 
+    deal += value.get(i[0], 0) 
+ print(f"Dealer value: {deal}")
 
 
 main() 
