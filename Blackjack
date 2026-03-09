@@ -39,7 +39,7 @@ def start():
  print(dealer)  
  for i in dealer: 
     deal += value.get(i[0], 0) 
- print(f"Dealer value: {deal}")
+ print(f"Dealer value: {deal}") #1
 
 
 main() 
