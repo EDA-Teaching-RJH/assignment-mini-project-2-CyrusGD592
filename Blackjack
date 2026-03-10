@@ -25,10 +25,16 @@ def main():
 def menu(player): # sets player as parameter and binds name class to it
     print("Menu: Blacjack ")  
     print(f"Player name: {player.name}")  
-    print("1: Start Game")
+    print("1: Start Game") 
+    print("2: Exit")
     opt = input("Select Option: ") 
-    if opt == "1": 
-        start(player) 
+    if opt == "1":  
+        start(player)  
+    if opt == "2": 
+       exit 
+    else: 
+       print("Invalid Number") 
+       return menu(player)
 
 def start(player): 
  shuffle(deck)  
@@ -42,19 +48,17 @@ def start(player):
  deal = 0 
  print(dealer)  
  for i in dealer: 
-    deal += value.get(i[0], 0) 
- print(f"Dealer value: {deal}") #1
- print("Hit") 
- print("Stand") 
- x = input("Select Move: ")
- if x == "Hit": 
-    hand = hit(hand, player)
+    deal += value.get(i[0], 0)  
+ print(f"Dealer value: {deal}") #1 
+ hand = move(hand, player)
 
 def hit(current_hand, player): 
+   total = 0 
+   for i in current_hand: 
+      total += value.get(i[0], 0) 
    hit_card = random.sample(deck,k=1) 
    current_hand.append(hit_card[0]) 
    print(current_hand) 
-   total = 0 
    for i in current_hand: 
       total += value.get(i[0], 0) 
    print(f"Hand value:  {total}") 
@@ -68,7 +72,36 @@ def hit(current_hand, player):
       else : 
            print("Stand")
           
-    
+def move(current_hand, player):
+ total = 0 
+ for i in current_hand: 
+   total += value.get(i[0], 0)
+ while total < 21:  
+      total = 0 
+      for i in current_hand: 
+         total += value.get(i[0], 0)
+      print(f"Hand value:  {total}") 
+      print(current_hand) 
+      print("1: Hit") 
+      print("2: Stand") 
+      f = input("Select move: ")   
+      if f == "1" or "Hit": 
+          hit_card = random.sample(deck,k=1) 
+          current_hand.append(hit_card[0])  
+          return move(current_hand, player) 
+      if f == "2" or "Stand": 
+         print("Stand") 
+      else: 
+         print("Invalid Move: Try 1 or 2") 
+         return move(current_hand, player)
+ else: 
+      print(current_hand) 
+      total = 0 
+      for i in current_hand: 
+         total += value.get(i[0], 0) 
+      print(f"Hand value:  {total}")   
+      print("Bust ! :C") 
+      return menu(player) 
 
 main() 
 
