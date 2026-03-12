@@ -50,32 +50,17 @@ def start(player):
  for i in dealer: 
     deal += value.get(i[0], 0)  
  print(f"Dealer value: {deal}") #1 
- hand = move(hand, player)
+ hand = move(hand, player, dealer) 
+ dealer = move(dealer, player, dealer)
 
-def hit(current_hand, player): 
-   total = 0 
-   for i in current_hand: 
-      total += value.get(i[0], 0) 
-   hit_card = random.sample(deck,k=1) 
-   current_hand.append(hit_card[0]) 
-   print(current_hand) 
-   for i in current_hand: 
-      total += value.get(i[0], 0) 
-   print(f"Hand value:  {total}") 
-   if total > 21:
-    print("Bust ! :C") 
-    return menu(player) 
-   else : 
-      f = input("Select Move: ") 
-      if f == "Hit": 
-            hit(current_hand, player) 
-      else : 
-           print("Stand")
           
-def move(current_hand, player):
+def move(current_hand, player, dealer):
  total = 0 
  for i in current_hand: 
    total += value.get(i[0], 0)
+ if total == 21:  
+         print("Blackjack !") 
+         deal(current_hand, dealer, player) 
  while total < 21:  
       total = 0 
       for i in current_hand: 
@@ -85,23 +70,60 @@ def move(current_hand, player):
       print("1: Hit") 
       print("2: Stand") 
       f = input("Select move: ")   
-      if f == "1" or "Hit": 
+      if f == "1" or f == "Hit": 
           hit_card = random.sample(deck,k=1) 
-          current_hand.append(hit_card[0])  
-          return move(current_hand, player) 
-      if f == "2" or "Stand": 
+          current_hand.append(hit_card[0]) 
+          total = 0 
+          for i in current_hand: 
+             total += value.get(i[0], 0)  
+          if total > 21: 
+             print(f"Hand value:  {total}")   
+             print("Bust ! :C") 
+             return menu(player)          
+      elif f == "2" or f == "Stand": 
          print("Stand") 
+         return deal(current_hand, dealer, player) 
       else: 
          print("Invalid Move: Try 1 or 2") 
-         return move(current_hand, player)
  else: 
-      print(current_hand) 
-      total = 0 
-      for i in current_hand: 
-         total += value.get(i[0], 0) 
-      print(f"Hand value:  {total}")   
-      print("Bust ! :C") 
+       print(current_hand) 
+       total = 0 
+       for i in current_hand: 
+          total += value.get(i[0], 0) 
+       print(f"Hand value:  {total}")   
+       print("Bust ! :C") 
+       return menu(player)  
+ 
+def deal(current_hand, dealer, player): 
+ dealer_total = 0 
+ print(dealer)  
+ for i in dealer: 
+    dealer_total += value.get(i[0], 0) 
+ print(f"Dealer value: {dealer_total}") 
+ if dealer_total < 17: 
+    deal_card = random.sample(deck,k=1) 
+    dealer.append(deal_card[0]) 
+    return deal(current_hand, dealer, player) 
+ if dealer_total > 21: 
+    print("Dealer Bust !")  
+    print("You Win !") 
+    return menu(player) 
+ else: 
+   total = 0 
+   for i in current_hand: 
+         total += value.get(i[0], 0)  
+   if dealer_total > total: 
+      print("You lose :C") 
       return menu(player) 
+   if dealer_total < total: 
+      print("You Win !") 
+      return menu(player) 
+   else: 
+      print("Push !") 
+      print("No one wins :/")
+      return menu(player)
+  
+   
 
 main() 
 
