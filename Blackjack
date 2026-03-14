@@ -1,3 +1,4 @@
+import sys
 import random 
 from itertools import product  
 from random import shuffle 
@@ -22,7 +23,7 @@ def main():
     print(f"Player name: {name.name}") 
     menu(name)
 
-def menu(player): # sets player as parameter and binds name class to it
+def menu(player): # sets player as parameter and binds name class to it 
     print("Menu: Blacjack ")  
     print(f"Player name: {player.name}")  
     print("1: Start Game") 
@@ -31,7 +32,7 @@ def menu(player): # sets player as parameter and binds name class to it
     if opt == "1":  
         start(player)  
     if opt == "2": 
-       exit 
+       sys.exit()
     else: 
        print("Invalid Number") 
        return menu(player)
@@ -53,18 +54,28 @@ def start(player):
  hand = move(hand, player, dealer) 
  dealer = move(dealer, player, dealer)
 
+def hand_value(hand): 
+   total = 0 
+   aces = 0 
+   for card in hand:  
+      rank = card[0]
+      total += value.get(rank, 0) 
+      if rank == "Ace": 
+         aces += 1 
+   while total > 21 and aces > 0: 
+      total -= 10 
+      aces -= 1 
+   return total
           
 def move(current_hand, player, dealer):
- total = 0 
- for i in current_hand: 
-   total += value.get(i[0], 0)
+ total = hand_value(current_hand)
  if total == 21:  
          print("Blackjack !") 
          deal(current_hand, dealer, player) 
- while total < 21:  
-      total = 0 
-      for i in current_hand: 
-         total += value.get(i[0], 0)
+ while True:  
+      total = hand_value(current_hand)
+      if total >= 21: 
+         break
       print(f"Hand value:  {total}") 
       print(current_hand) 
       print("1: Hit") 
@@ -73,26 +84,23 @@ def move(current_hand, player, dealer):
       if f == "1" or f == "Hit": 
           hit_card = random.sample(deck,k=1) 
           current_hand.append(hit_card[0]) 
-          total = 0 
-          for i in current_hand: 
-             total += value.get(i[0], 0)  
+          total = hand_value(current_hand) 
           if total > 21: 
              print(f"Hand value:  {total}")   
              print("Bust ! :C") 
-             return menu(player)          
+             return menu(player)        
       elif f == "2" or f == "Stand": 
          print("Stand") 
          return deal(current_hand, dealer, player) 
       else: 
          print("Invalid Move: Try 1 or 2") 
- else: 
+ """if total >= 21 
        print(current_hand) 
-       total = 0 
-       for i in current_hand: 
-          total += value.get(i[0], 0) 
-       print(f"Hand value:  {total}")   
+       total = hand_value(current_hand) 
+       print(f"Hand value:  {total}") 
+       if total > 21:   
        print("Bust ! :C") 
-       return menu(player)  
+       return menu(player) """
  
 def deal(current_hand, dealer, player): 
  dealer_total = 0 
