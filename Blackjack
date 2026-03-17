@@ -4,7 +4,7 @@ from itertools import product
 from random import shuffle 
 Suits = ["Clubs ", "Hearts ", "Spades ", "Diamonds "] 
 Ranks = ['Ace ', '2 ', '3 ', '4 ', '5 ', '6 ', '7 ', '8 ', '9 ', '10 ', 'Jack ', 'Queen ', 'King '] 
-value = {'Ace ' :11 , '2 ' :2, '3 ' :3, '4 ' :4, '5 ':5, '6 ':6, '7 ':7, '8 ':8, '9 ':9, '10 ':10, 'Jack ':10, 'Queen ':10, 'King ':10} 
+value = {'Ace ' :11 , '2 ' :2, '3 ' :3, '4 ' :4, '5 ':5, '6 ':6, '7 ':7, '8 ':8, '9 ':9, '10 ':10, 'Jack ':10, 'Queen ':10, 'King ':10} # makes dictionary of ranks gives them values
 deck = list(product(Ranks, Suits)) #creates deck 
 
 
@@ -19,7 +19,7 @@ def get_name():
     return Name(name)
 
 def main(): 
-    name = get_name()
+    name = get_name() #calls get name function then prints out name and carrys name over to menu as variable
     print(f"Player name: {name.name}") 
     menu(name)
 
@@ -28,70 +28,71 @@ def menu(player): # sets player as parameter and binds name class to it
     print(f"Player name: {player.name}")  
     print("1: Start Game") 
     print("2: Exit")
-    opt = input("Select Option: ") 
+    opt = input("Select Option: ") #creates menu of options then asks user for input
     if opt == "1":  
         start(player)  
     if opt == "2": 
-       sys.exit()
+       sys.exit("Exit")
     else: 
        print("Invalid Number") 
        return menu(player)
 
-def start(player): 
- shuffle(deck)  
- hand = random.sample(deck,k=2)
+def start(player): #initialises blackjack game
+ shuffle(deck)  #shuffles deck on start
+ hand = random.sample(deck,k=2) #pulls two random unique cards from deck and adds to hand
  total = 0
  print(hand) 
  for i in hand: 
-  total += value.get(i[0], 0) 
+  total += value.get(i[0], 0) # gets value for hand by pulling values for value dictionary and adding to total
  print(f"Hand value:  {total}")  
- dealer = random.sample(deck,k=2) 
+ dealer = random.sample(deck,k=2) #same as hand but for dealer
  deal = 0 
  print(dealer)  
  for i in dealer: 
     deal += value.get(i[0], 0)  
  print(f"Dealer value: {deal}") #1 
- hand = move(hand, player, dealer) 
- dealer = move(dealer, player, dealer)
+ hand = move(hand, player, dealer) # moves hand value to move function
+ dealer = move(dealer, player, dealer) 
 
-def hand_value(hand): 
+def hand_value(hand): # funcntion to tolal hand value up
    total = 0 
    aces = 0 
-   for card in hand:  
-      rank = card[0]
+   for i in hand:  
+      rank = i[0]
       total += value.get(rank, 0) 
-      if rank == "Ace": 
+      if "Ace" in hand: # sees if any aces are in hand and adds them up
          aces += 1 
-   while total > 21 and aces > 0: 
+   while total > 21 and aces > 0: # if there is an ace and total is above 21 it -10
       total -= 10 
       aces -= 1 
    return total
           
-def move(current_hand, player, dealer):
+def move(current_hand, player, dealer): #starts function of player move loop
  total = hand_value(current_hand)
  if total == 21:  
          print("Blackjack !") 
-         deal(current_hand, dealer, player) 
+         deal(current_hand, dealer, player) #starts dealers turn
  while True:  
       total = hand_value(current_hand)
       if total >= 21: 
-         break
+         break #if total is grater or equal to 21 it breaks loop
       print(f"Hand value:  {total}") 
       print(current_hand) 
-      print("1: Hit") 
+      print("1: Hit")  # prints out what moves u can use
       print("2: Stand") 
       f = input("Select move: ")   
       if f == "1" or f == "Hit": 
           hit_card = random.sample(deck,k=1) 
-          current_hand.append(hit_card[0]) 
+          current_hand.append(hit_card[0]) #if hit adds card to hand then retotals the hand
           total = hand_value(current_hand) 
           if total > 21: 
+             print(current_hand)  
              print(f"Hand value:  {total}")   
              print("Bust ! :C") 
-             return menu(player)        
+             return menu(player)    # ends game if player busts    
       elif f == "2" or f == "Stand": 
          print("Stand") 
-         return deal(current_hand, dealer, player) 
+         return deal(current_hand, dealer, player) #ends turn moves to dealer
       else: 
          print("Invalid Move: Try 1 or 2") 
  """if total >= 21 
@@ -108,7 +109,7 @@ def deal(current_hand, dealer, player):
  for i in dealer: 
     dealer_total += value.get(i[0], 0) 
  print(f"Dealer value: {dealer_total}") 
- if dealer_total < 17: 
+ if dealer_total < 17:  #dealer adds card until 17
     deal_card = random.sample(deck,k=1) 
     dealer.append(deal_card[0]) 
     return deal(current_hand, dealer, player) 
@@ -119,7 +120,7 @@ def deal(current_hand, dealer, player):
  else: 
    total = 0 
    for i in current_hand: 
-         total += value.get(i[0], 0)  
+         total += value.get(i[0], 0)  #compares dealer value to player value and if player is higher they win the returns to menu after
    if dealer_total > total: 
       print("You lose :C") 
       return menu(player) 
