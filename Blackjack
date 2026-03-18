@@ -7,8 +7,6 @@ Ranks = ['Ace ', '2 ', '3 ', '4 ', '5 ', '6 ', '7 ', '8 ', '9 ', '10 ', 'Jack ',
 value = {'Ace ' :11 , '2 ' :2, '3 ' :3, '4 ' :4, '5 ':5, '6 ':6, '7 ':7, '8 ':8, '9 ':9, '10 ':10, 'Jack ':10, 'Queen ':10, 'King ':10} # makes dictionary of ranks gives them values
 deck = list(product(Ranks, Suits)) #creates deck 
 
-
-
 class Name: 
     def __init__(self,name): # creates class of name 
         self.name = name 
@@ -128,9 +126,9 @@ def deal(current_hand, dealer, player):
     print("You Win !") 
     return menu(player) 
  else: 
-   total = 0 
-   for i in current_hand: 
-         total += value.get(i[0], 0)  #compares dealer value to player value and if player is higher they win the returns to menu after
+   total = hand_value(current_hand)   #compares dealer value to player value and if player is higher they win the returns to menu after 
+   print(current_hand) 
+   print(total)
    if dealer_total > total: 
       print("You lose :C") 
       return menu(player) 
