@@ -40,17 +40,13 @@ def menu(player): # sets player as parameter and binds name class to it
 def start(player): #initialises blackjack game
  shuffle(deck)  #shuffles deck on start
  hand = random.sample(deck,k=2) #pulls two random unique cards from deck and adds to hand
- total = 0
- print(hand) 
- for i in hand: 
-  total += value.get(i[0], 0) # gets value for hand by pulling values for value dictionary and adding to total
+ total = hand_value(hand) 
+ print(hand)
  print(f"Hand value:  {total}")  
  dealer = random.sample(deck,k=2) #same as hand but for dealer
- deal = 0 
- print(dealer)  
- for i in dealer: 
-    deal += value.get(i[0], 0)  
- print(f"Dealer value: {deal}") #1 
+ dealer_total = deal_value(dealer) 
+ print(dealer)
+ print(f"Dealer value: {dealer_total}") #1 
  hand = move(hand, player, dealer) # moves hand value to move function
  dealer = move(dealer, player, dealer) 
 
@@ -105,11 +101,23 @@ def move(current_hand, player, dealer): #starts function of player move loop
        print("Bust ! :C") 
        return menu(player) """
  
+def deal_value(dealer): # same function for player hand but for dealer
+   deal_total = 0 
+   deal_aces = 0 
+   for i in dealer:  
+      rank = i[0]
+      deal_total += value.get(rank, 0)
+      if "Ace" in rank: 
+         deal_aces += 1 
+   while deal_total > 21 and deal_aces > 0: 
+      deal_total -= 10 
+      deal_aces -= 1 
+   return deal_total
+
+
 def deal(current_hand, dealer, player): 
- dealer_total = 0 
+ dealer_total = deal_value(dealer)
  print(dealer)  
- for i in dealer: 
-    dealer_total += value.get(i[0], 0) 
  print(f"Dealer value: {dealer_total}") 
  if dealer_total < 17:  #dealer adds card until 17
     deal_card = random.sample(deck,k=1) 
