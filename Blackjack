@@ -59,8 +59,10 @@ def hand_value(hand): # funcntion to tolal hand value up
    aces = 0 
    for i in hand:  
       rank = i[0]
-      total += value.get(rank, 0) 
-      if "Ace" in hand: # sees if any aces are in hand and adds them up
+      total += value.get(rank, 0)
+      #print(i[0],0) # checks inside string for values (i was trying to find ace but i was checking hand) 
+      #print(rank) prints out just the ranks in hand
+      if "Ace" in rank: # sees if any aces are in hand and adds them up
          aces += 1 
    while total > 21 and aces > 0: # if there is an ace and total is above 21 it -10
       total -= 10 
