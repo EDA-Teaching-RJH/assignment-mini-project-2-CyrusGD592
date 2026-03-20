@@ -5,7 +5,7 @@ from random import shuffle
 Suits = ["Clubs ", "Hearts ", "Spades ", "Diamonds "] 
 Ranks = ['Ace ', '2 ', '3 ', '4 ', '5 ', '6 ', '7 ', '8 ', '9 ', '10 ', 'Jack ', 'Queen ', 'King '] 
 value = {'Ace ' :11 , '2 ' :2, '3 ' :3, '4 ' :4, '5 ':5, '6 ':6, '7 ':7, '8 ':8, '9 ':9, '10 ':10, 'Jack ':10, 'Queen ':10, 'King ':10} # makes dictionary of ranks gives them values
-deck = list(product(Ranks, Suits)) #creates deck  
+deck = list(product(Ranks, Suits)) #creates deck by creating a list of ranks with suits 
 
 
 class Name: 
@@ -32,12 +32,13 @@ def menu(player): # sets player as parameter and binds name class to it
     if opt == "1":  
         start(player)   
     if opt == "2": 
-        re = open("results.txt", "r") 
+        re = open("results.txt", "r") # opens results file and reads 
         st = re.read(100) 
+        print("Results: ") 
         print(st) 
         return menu(player)
     if opt == "3": 
-       sys.exit("Exit")
+       sys.exit("Exit") # exits application
     else: 
        print("Invalid Number") 
        return menu(player)
@@ -55,7 +56,7 @@ def start(player): #initialises blackjack game
  hand = move(hand, player, dealer) # moves hand value to move function
  dealer = move(dealer, player, dealer)  
 
-def hand_value(hand): # funcntion to tolal hand value up
+def hand_value(hand): # function to tolal hand value up
    total = 0 
    aces = 0 
    for i in hand:  
