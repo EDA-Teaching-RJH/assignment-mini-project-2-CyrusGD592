@@ -5,7 +5,8 @@ from random import shuffle
 Suits = ["Clubs ", "Hearts ", "Spades ", "Diamonds "] 
 Ranks = ['Ace ', '2 ', '3 ', '4 ', '5 ', '6 ', '7 ', '8 ', '9 ', '10 ', 'Jack ', 'Queen ', 'King '] 
 value = {'Ace ' :11 , '2 ' :2, '3 ' :3, '4 ' :4, '5 ':5, '6 ':6, '7 ':7, '8 ':8, '9 ':9, '10 ':10, 'Jack ':10, 'Queen ':10, 'King ':10} # makes dictionary of ranks gives them values
-deck = list(product(Ranks, Suits)) #creates deck 
+deck = list(product(Ranks, Suits)) #creates deck  
+
 
 class Name: 
     def __init__(self,name): # creates class of name 
@@ -25,17 +26,23 @@ def menu(player): # sets player as parameter and binds name class to it
     print("Menu: Blacjack ")  
     print(f"Player name: {player.name}")  
     print("1: Start Game") 
-    print("2: Exit")
+    print("2: Game Results") 
+    print("3: Exit")
     opt = input("Select Option: ") #creates menu of options then asks user for input
     if opt == "1":  
-        start(player)  
+        start(player)   
     if opt == "2": 
+        re = open("results.txt", "r") 
+        st = re.read(100) 
+        print(st) 
+        return menu(player)
+    if opt == "3": 
        sys.exit("Exit")
     else: 
        print("Invalid Number") 
        return menu(player)
 
-def start(player): #initialises blackjack game
+def start(player): #initialises blackjack game 
  shuffle(deck)  #shuffles deck on start
  hand = random.sample(deck,k=2) #pulls two random unique cards from deck and adds to hand
  total = hand_value(hand) 
@@ -46,7 +53,7 @@ def start(player): #initialises blackjack game
  print(dealer)
  print(f"Dealer value: {dealer_total}") #1 
  hand = move(hand, player, dealer) # moves hand value to move function
- dealer = move(dealer, player, dealer) 
+ dealer = move(dealer, player, dealer)  
 
 def hand_value(hand): # funcntion to tolal hand value up
    total = 0 
@@ -85,6 +92,9 @@ def move(current_hand, player, dealer): #starts function of player move loop
              print(current_hand)  
              print(f"Hand value:  {total}")   
              print("Bust ! :C") 
+             re = open("results.txt", "a")# appends end game condition to results file then flushes to ensure it is written
+             re.write("Lose \n") 
+             re.flush() 
              return menu(player)    # ends game if player busts    
       elif f == "2" or f == "Stand": 
          print("Stand") 
@@ -124,20 +134,32 @@ def deal(current_hand, dealer, player):
  if dealer_total > 21: 
     print("Dealer Bust !")  
     print("You Win !") 
+    re = open("results.txt", "a")
+    re.write("Win \n") 
+    re.flush() 
     return menu(player) 
  else: 
    total = hand_value(current_hand)   #compares dealer value to player value and if player is higher they win the returns to menu after 
    print(current_hand) 
-   print(total)
+   print(f"Hand value:  {total}") 
    if dealer_total > total: 
       print("You lose :C") 
+      re = open("results.txt", "a") # appends end game condition to results file then flushes to ensure it is written same as bellow
+      re.write("Lose \n") 
+      re.flush() 
       return menu(player) 
    if dealer_total < total: 
       print("You Win !") 
+      re = open("results.txt", "a")
+      re.write("Win \n")
+      re.flush() 
       return menu(player) 
    else: 
       print("Push !") 
-      print("No one wins :/")
+      print("No one wins :/") 
+      re = open("results.txt", "a")
+      re.write("Push \n")
+      re.flush() 
       return menu(player)
   
    
